@@ -1,29 +1,52 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Home from '../views/Home.vue'
 
+// const shopcart=()=>import shopcart from ""
+// 注意这里导入时候和普通的es6写法的区别
+const Shopcart=()=>import ("../views/shopcart/Shopcart")
+const Category=()=>import ("../views/category/Category")
+const Home=()=>import ("../views/home/Home")
+const Profile=()=>import ("../views/profile/Profile")
+const Detail=()=>import ("../views/detail/Detail")
+
+
+
+// 1.安装插件
 Vue.use(VueRouter)
 
+// 2.创建router
 const routes = [
   {
-    path: '/',
-    name: 'home',
+    path: '',
+    redirect: '/home'
+  },
+  {
+    path: '/home',
     component: Home
   },
   {
-    path: '/about',
-    name: 'about',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
-  }
+    path: '/category',
+    component: Category
+  },
+  {
+    path: '/shopcart',
+    component: Shopcart
+  },
+  {
+    path: '/profile',
+    component: Profile
+  },
+  {
+    path:'/detail/:iid',
+    component:Detail
+  },
 ]
-
 const router = new VueRouter({
-  mode: 'history',
-  base: process.env.BASE_URL,
-  routes
+  routes,
+  // base: '/Users/zhouyang/codes/vscodeworkplace/vuemall1/dist/',
+  mode: 'history'
 })
 
+
 export default router
+

@@ -14,7 +14,7 @@ obj.install=function(Vue){
     document.body.appendChild(toast.$el)
     // 接下来和原型绑定 其它地方就可以全局的使用了
     Vue.prototype.$toast=toast
-    console.log('333')
+    // console.log('333')
     
 }
 export default obj

@@ -79,7 +79,7 @@ export default {
 
                 res=>{
                     this.result=res.result;
-                    console.log(this.result)
+                    // console.log(this.result)
                     this.topImages=res.result.itemInfo.topImages
                     // console.log(this.topImages)
                     

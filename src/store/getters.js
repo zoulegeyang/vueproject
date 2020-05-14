@@ -5,5 +5,12 @@ export default {
     },
     list(state){
         return state.cartList
+    },
+
+    getUserInfo(state) {
+        return state.userInfo
+    },
+    getTrait(state) {
+        return state.userInfo.protrait
     }
 }

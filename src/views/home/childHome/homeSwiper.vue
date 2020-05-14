@@ -1,36 +1,25 @@
 <template>
   <div>
-      <swiper>
-          <swiper-Item v-for="item in banners">
-              <a :href="item.link">
-                  <img :src="item.image" alt="" @load="swiperLoad">
+    <van-swipe class="my-swipe" :autoplay="3000" indicator-color="white">
+  <van-swipe-item v-for="(item,index) in banners" :key="index"> 
+    <a :href="item.link">
+                  <img :src="item.image" @load="swiperLoad" class="image">
               </a>
-          </swiper-Item>
-
-      </swiper>
+  </van-swipe-item>
+  
+</van-swipe>
   </div>
 </template>
 
 <script>
-import {Swiper,SwiperItem} from "components/common/swiper"
-export default {
-    name:"homeSwiper",
-    data(){
-        return {
-            isLoad:false,
+  export default {
+    props: {
+      banners: {
+        type: Array,
+        default() {
+          return []
         }
-    },
-    props:{
-        banners:{
-            type:Array,
-            default(){
-                return []
-            }
-        }
-    },
-    components:{
-        Swiper,
-        SwiperItem
+      },
     },
     methods:{
         swiperLoad(){
@@ -43,9 +32,17 @@ export default {
             
         }
     }
-}
+  }
 </script>
 
-<style>
-
+<style  scoped>
+.image {
+  width:100%;
+  margin:0!important
+}
+.my-swipe {
+  height: 195px!important;
+  overflow: hidden;
+  background-color: pink;
+}
 </style>

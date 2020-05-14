@@ -1,4 +1,7 @@
 module.exports = {
+    devServer:{
+      proxy:'http://localhost:5000'
+    },
     configureWebpack: {
       resolve: {
         alias: {
@@ -10,7 +13,7 @@ module.exports = {
         }
       }
     },
-    publicPath:'./',
+    // publicPath:'./',
     // assetsPublicPath:'./',
   }
   

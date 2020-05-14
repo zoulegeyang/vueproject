@@ -80,10 +80,7 @@ export default {
 
 <style scoped >
 .cart-bottom-bar{
-    position:absolute;
-    left: 0;
-    right: 0;
-    bottom: 49px;
+    
     display:flex;
     height: 40px;
     background-color: yellow;

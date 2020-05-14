@@ -7,7 +7,7 @@ export function getMultidata(){
 }
 export function getGoods(type,page){
     return request({
-        url:"home/data",
+        url:"/home/data",
         params:{
             type,
             page

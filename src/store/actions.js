@@ -30,5 +30,14 @@ export default {
       // console.log(temp.iid)
       // console.log(temp.count)
 
+      },
+      userKeeper(context,payload) {
+        return new Promise((resolve,reject)=>{
+          context.commit('setInitUserInfo',payload)
+          resolve(context.state.userInfo)
+        })
+      },
+      updateUserProtrait(context,payload) {
+        context.commit('updateUserProtrait',payload)
       }
   }

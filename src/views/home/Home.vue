@@ -8,7 +8,7 @@
     <tab-control :titles="['流行','新款','好物']" @tabClick="tabClick" ref="control1" v-show="controlIsshow" class="control"></tab-control>
     <bscroll class="content" ref="bscroll" :probe-type="3" 
     @gundong="xianshi" @pullingUp="loadMore">
-      <home-swiper :banners="banners" @imageLoad="imageLoad" ref="swiper"></home-swiper>
+      <home-swiper :class="{swiper:activated}" :banners="banners" @imageLoad="imageLoad" ref="swiper"></home-swiper>
       <home-recommend :recommends="recommends"></home-recommend>
       <tab-control :titles="['流行','新款','好物']" @tabClick="tabClick" ref="control2"></tab-control>
       <goods-list :goods="goods[currentType].list"></goods-list>
@@ -50,7 +50,7 @@ export default {
         // isShow:true,
         topheight:0,
         controlIsshow:false,
-        
+        activated:false,
         y:0,
       }
     },
@@ -88,11 +88,15 @@ export default {
     activated(){
       // console.log(-this.y)
       // 和老师的不一样 第三个值经测试不能加
-      this.$refs.bscroll.scrollTo(0,this.y,500)
-      this.$refs.bscroll.refresh()
-      // 只要回来了就还需要继续监听图片的加载 然后重新刷新
-      // 这里的imgLoad被混入到imgLoad.js中了  
-      this.$bus.$on('imgLoad',this.imgLoad)
+      // this.$refs.bscroll.scrollTo(0,this.y,500)
+      // this.$refs.bscroll.refresh()
+      // // 只要回来了就还需要继续监听图片的加载 然后重新刷新
+      // // 这里的imgLoad被混入到imgLoad.js中了  
+      // this.$bus.$on('imgLoad',this.imgLoad)
+      this.activated= true
+      this.topheight=this.$refs.control2.$el.offsetTop
+      console.log(this.topheight)
+      
     },
     deactivated(){
       
@@ -124,9 +128,9 @@ export default {
           this.$refs.control2.currentIndex=index;
 
       },
-      // backClick(){
-      //   this.$refs.bscroll.scrollTo(0,0)
-      // },
+      backClick(){
+        this.$refs.bscroll.scrollTo(0,0)
+      },
       xianshi(position){
         // 检测回到顶部按钮是否显示
         if((-(position.y))>1000){
@@ -150,8 +154,9 @@ export default {
       },
       imageLoad(){
         this.topheight=this.$refs.control2.$el.offsetTop
-        this.refresh()
-        // console.log(this.topheight)
+        this.$refs.bscroll.refresh()
+        // console.log('----')
+        console.log(this.topheight)
         // console.log('222222222222')
       },
 
@@ -186,6 +191,7 @@ export default {
             this.goods[type].list.push(...res.data.list)
             this.goods[type].page+=1;
             // this.$refs.bscroll.scrollTo(0,0);
+
             this.$refs.bscroll.finishPullUp()
 
             
@@ -223,7 +229,9 @@ export default {
   z-index: 9; */
 }
 .control{
+  margin-top: -1px;
   position: relative;
+  /* top:43px; */
   background-color: #fff;
   z-index: 9;
 }
@@ -242,6 +250,8 @@ export default {
   overflow: hidden; */
   /* margin-top: 44px; */
 }
-
+.swiper {
+  margin-top:-20px;
+}
 
 </style>

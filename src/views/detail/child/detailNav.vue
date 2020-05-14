@@ -1,8 +1,9 @@
 <template>
   <div class="detail-nav">
       <nav-bar>
-          <div class="left" slot="left" @click="backClick">
-              <img src="~assets/img/common/back.svg" alt="" class="back">
+          <div class="left" slot="left" @click="backClick" >
+              <!-- <img src="~assets/img/common/back.png" class="back"> -->
+              <span class="back">返回</span>
           </div>
           <div slot="center" class="center">
               <div v-for="(item,index) in titles" class="item" :class="{active:index==currentIndex}" @click="itemClick(index)" :key="index">{{item}}</div>
@@ -11,7 +12,7 @@
   </div>
 </template>
 
-<script>
+<script>    
 import navBar from "components/common/navBar"
 export default {
     name:"detailNav",
@@ -52,8 +53,25 @@ export default {
 .active{
     color:pink;
 }
+.left{
+    height: 100%;
+    /* line-height: 100%; */
+    display: flex;
+}
 .back{
-    margin-top:9px;
+    /* position:absolute;
+     */
+    align-content: center;
+    font-size:13px ;
+    font-weight: bold;
+    /* margin-bottom:5px; */
     margin-left: 10px;
+    color: #666;
+    /* width: 100%; */
+    /* left: ; */
+    /* height: 100%; */
+}
+.back:hover{
+    color:pink;
 }
 </style>

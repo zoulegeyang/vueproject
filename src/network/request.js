@@ -3,11 +3,16 @@ import axios from "axios"
 export function request(config){
     const instance = axios.create({
         
-        baseURL:'接口找老师要',
+        baseURL:'http://123.207.32.32:8000/api/m3',
         timeout:5000
     })
     instance.interceptors.request.use(config=>{
-        return config
+        //  将token 放在session里 每次发请求都发过去
+        if (sessionStorage.getItem("token")) {
+            config.headers.Authorization = sessionStorage.getItem("token");
+            return config;
+          }
+          else return config
     },err=>{}
     )
     instance.interceptors.response.use(res=>{

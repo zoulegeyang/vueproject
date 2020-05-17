@@ -34,7 +34,12 @@
 </template>
 
 <script>
-export default {};
+import {mapGetters} from "vuex"
+export default {
+  computed: {
+    ...mapGetters(['getUserInfo'])
+  },
+};
 </script>
 
 <style scoped>

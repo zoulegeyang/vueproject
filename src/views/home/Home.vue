@@ -5,7 +5,11 @@
       <div slot="center" class="center">购物街</div>
       <div slot="right"></div>
     </nav-bar>
-    <tab-control :titles="['流行','新款','好物']" @tabClick="tabClick" ref="control1" v-show="controlIsshow" class="control"></tab-control>
+    <!-- 用样式来控制显示和隐藏 v-show和v-if会导致$refs获取不到组件 -->
+    <div :class="controlIsshow?'controlwrap':'NoShowControlWrap'">
+    <tab-control :titles="['流行','新款','好物']" @tabClick="tabClick" ref="control1" class="control"></tab-control>
+
+    </div>
     <bscroll class="content" ref="bscroll" :probe-type="3" 
     @gundong="xianshi" @pullingUp="loadMore">
       <home-swiper :class="{swiper:activated}" :banners="banners" @imageLoad="imageLoad" ref="swiper"></home-swiper>
@@ -26,6 +30,7 @@ import goodsList from "components/contents/goods/goodsList"
 import Bscroll from "components/common/bscroll/Bscroll"
 import backTop from "components/contents/backTop"
 
+import { mapActions} from "vuex"
 // import {debounce} from "common/util"
 import {listenerMix,backTopMIx} from "common/imgLoad"
 
@@ -47,7 +52,7 @@ export default {
 
         },
         currentType:'pop',
-        // isShow:true,
+        isShow:false,
         topheight:0,
         controlIsshow:false,
         activated:false,
@@ -64,7 +69,15 @@ export default {
       backTop,
     },
     mixins:[listenerMix,backTopMIx,],
+    // activated () {
+    //   console.log('````')
+    // // if (this.$store.getters.getUserInfo=='') {
+    // //   this.fileList[0]=this.$store.getters.getUserInfo;
+    //   console.log(this.$store.getters.getUserInfo)
+    // },
     created(){
+      /// 每次打开app的时候都是进首页
+      
       this.getMultidata(),
       this.getGoods('pop'),
       this.getGoods('sell'),
@@ -93,9 +106,20 @@ export default {
       // // 只要回来了就还需要继续监听图片的加载 然后重新刷新
       // // 这里的imgLoad被混入到imgLoad.js中了  
       // this.$bus.$on('imgLoad',this.imgLoad)
+      // console.log(this.$store.getters.getUserInfo)
+
+      // 在第一次的时候 获取一个 空的用户列表信息
+      // 后端需根据这个api 来做处理 若 发这个请求时 客户端有cookie 则返回cookie里用户的信息 若没有则返回空的初始化信息
+      // 这个写在activated里是因为防止用户注销 那个时候进行跳转到首页的时候 首页不会再创建
+      this.$http.get('empty')
+      .then(res=>{
+        this.userKeeper(res.data.userInfo)
+        console.log(res.data.userInfo)
+      })
+
       this.activated= true
       this.topheight=this.$refs.control2.$el.offsetTop
-      console.log(this.topheight)
+      // console.log(this.topheight)
       
     },
     deactivated(){
@@ -110,6 +134,7 @@ export default {
       console.log("gg")
     },
     methods:{
+      ...mapActions(['userKeeper']),
       // 监听事件
       tabClick(index){
           switch(index){
@@ -126,6 +151,8 @@ export default {
           }
           this.$refs.control1.currentIndex=index;
           this.$refs.control2.currentIndex=index;
+         
+          
 
       },
       backClick(){
@@ -191,7 +218,7 @@ export default {
             this.goods[type].list.push(...res.data.list)
             this.goods[type].page+=1;
             // this.$refs.bscroll.scrollTo(0,0);
-
+            this.$refs.bscroll.refresh()
             this.$refs.bscroll.finishPullUp()
 
             
@@ -228,12 +255,23 @@ export default {
   right:0;
   z-index: 9; */
 }
-.control{
+.controlwrap{
+  /* display: block; */
+  width: 100%;
   margin-top: -1px;
-  position: relative;
-  /* top:43px; */
+  position: fixed;
+  top:43px;
   background-color: #fff;
   z-index: 9;
+}
+.NoShowControlWrap {
+  /* width: 100%;
+  margin-top: -1px; */
+  position: fixed;
+  /* top:43px;
+  background-color: #fff; */
+  /* z-index: -20; */
+  opacity: 0;
 }
 .content{
   /* padding-top:44px; */

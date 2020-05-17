@@ -55,7 +55,7 @@ export default {
     },
     created() {
         getCategory().then(res=>{
-            console.log(res)
+            // console.log(res)
             this.cateTittle = res.data.category.list
             this.onChange(0)
         })

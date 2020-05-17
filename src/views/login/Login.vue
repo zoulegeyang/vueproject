@@ -268,7 +268,7 @@ export default {
         // cookie.set("mobile", res.data.token);
         // 若登录注册成功 则设置session cookie 以及将用户信息放在vuex里供其他页面使用
         if (res.data.code == 200||res.data.code == 201) {
-          sessionStorage.setItem("mobile", res.token);
+          sessionStorage.setItem("token", res.data.token);
           console.log(res.data.userInfo._doc)
           this.userKeeper(res.data.userInfo._doc)
           .then(res=>{
@@ -289,27 +289,28 @@ export default {
         }
       });
     },
+    // 密码登录
     pwdsubmits() {
-      this.$http(
-        {
-          url:'login',
-          method:'post',
-          data:{
+      // console.log('1111')
+      this.$http.post('/login',{
         phone:this.phone,
         password:this.password
-      }
-        }
-      )
+      })
       .then(res=>{
         if (res.data.code == 200 ) {
           console.log(res)
           sessionStorage.setItem('token',res.data.token)
+          this.userKeeper(res.data.userInfo._doc)
+          .then(res=>{
+            this.$router.push('/home')
+            this.$toast.show('登录成功',2000)
+          })
         }else {
           console.log(res)
           this.$toast.show('手机号或密码错误',2000)
         }
       })
-      .catch(err=>err)
+      .catch(err=>console.log(err))
     }
   }
 };

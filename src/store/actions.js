@@ -39,5 +39,8 @@ export default {
       },
       updateUserProtrait(context,payload) {
         context.commit('updateUserProtrait',payload)
+      },
+      updateUserInfo(context,payload) {
+        context.commit('updateUserInfo',payload)
       }
   }

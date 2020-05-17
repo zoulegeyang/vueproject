@@ -11,15 +11,22 @@
       </div>
       <div class="info" v-show="!isLogin">
         <div @click="Login">
-          <span>点击登录</span>
+          <span>{{getUserInfo.username}}</span>
+          <span v-if="getUserInfo.phone=='10000000000'||!getUserInfo.phone">(点击登录)</span>
+          <span v-else>(注销)</span>
+          <!-- <span v-else>还未登录</span> -->
         </div>
         <div class="text">
-          <van-icon name="phone-o" />暂无绑定的手机号
+          <van-icon name="phone-o" />
+          <!--  调用计算属性不要写() 可以直接. 来得到返回值的后续 -->
+          <span v-if="getUserInfo.phone!='10000000000'&&getUserInfo.phone">{{getUserInfo.phone}}</span>
+          <span v-else>手机未绑定</span>
         </div>
       </div>
       
     </div>
-    <van-icon name="arrow" class="arrow" color="#fff" />
+    <!-- 编辑用户详情页面 -->
+    <van-icon name="arrow" class="arrow" color="#fff" @click="$router.push('edit')"/>
   </div>
 </template>
 
@@ -36,8 +43,35 @@ export default {
 
     };
   },
+  // 初始化时看
+  activated () {
+    // 判断vuex里是否有userInfo 
+    // if(this.$store.getters.getUserInfo.protrait) {
+    //   this.fileList=[{url:'http://localhost:5000'+this.$store.getters.getUserInfo.protrait}]
+    // }
+      // console.log(this.fileList)
+    },
+  // },
   computed: {
     ...mapGetters(['getUserInfo']),
+    userInfo(){
+      return this.getUserInfo.protrait
+    }
+  },
+  // 可以监听计算属性 
+  watch: {
+    userInfo() {
+      console.log(this.getUserInfo.protrait)
+      console.log('11111')
+      console.log(this.$store.getters.getUserInfo.protrait)
+      if(this.getUserInfo.protrait){
+        this.fileList=[{url:'http://localhost:5000'+this.getUserInfo.protrait}]
+        console.log(this.fileList)
+      }else {
+        this.fileList = []
+      }
+      
+    }
   },
   methods: {
     ...mapActions(['updateUserProtrait']),
@@ -60,10 +94,11 @@ export default {
       formdata.append('image',file.file)
       this.$http.post('upload',formdata)
       .then(res=>{
-        console.log(res)
         // 成功以后更新vuex
         if(res.data.code == 200) {
-          this.fileList.push({url:res.data.webpath})
+          // this.fileList.push({url:res.data.webpath})
+          // console.log(res.data.webpath)
+          // console.log('111')
           this.updateUserProtrait(res.data.webpath)
           file.status = 'uploaded'
           this.showupload =false
@@ -128,10 +163,15 @@ export default {
 }
 /* 可让上传区域上传图片的时候始终保持只有一个圆形框框 上传完不显示另一个框 */
 .uploader {
+  margin:0!important;
   border-radius: 50%!important;
-    width:60px;
+  width:60px;
   height: 60px;
   overflow: hidden;
 }
+img{
+  margin:0!important;
+}
+
 
 </style>

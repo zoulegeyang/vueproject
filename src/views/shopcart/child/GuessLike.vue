@@ -29,7 +29,5 @@ import {getMultidata,getGoods} from "network/home.js"
   text-align: center;
   margin-top: 10px;
 }
-.goods {
-  margin-top: -10px;
-}
+
 </style>

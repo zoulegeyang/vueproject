@@ -9,7 +9,7 @@ export function request(config){
     instance.interceptors.request.use(config=>{
         //  将token 放在session里 每次发请求都发过去
         if (sessionStorage.getItem("token")) {
-            config.headers.Authorization = sessionStorage.getItem("token");
+            config.headers.token = sessionStorage.getItem("token");
             return config;
           }
           else return config

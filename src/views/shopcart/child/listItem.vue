@@ -5,10 +5,11 @@
             <div class="left"><img :src="product.image" alt=""></div>
             <div class="right">
                 <div class="title">{{product.title}}</div>
-                <div class="desc">{{product.desc}}</div>
+                <!-- <div class="desc">{{product.desc}}</div> -->
                 <div class="bottom">
                     <span class="price">${{product.price}}</span>
                     <span class="count">X{{product.count}}</span>
+                    <van-stepper v-model="value" />
                 </div>
                 
             </div>
@@ -18,17 +19,23 @@
 </template>
 
 <script>
+import {mapGetters} from "vuex"
 import checkButton from "components/common/checkButton/checkButton"
 export default {
      name:"listItem",
-     props:{
-         product:{
-             type:Object,
-             default(){
-                 return {}
-             }
-         }
-     },
+    //  props:{
+    //      product:{
+    //          type:Object,
+    //          default(){
+    //              return {}
+    //          }
+    //      }
+    //  },
+    computed:{
+        ...mapGetters({
+            product:'list'
+        })
+    },
     data() {
         return {
 
@@ -54,8 +61,9 @@ export default {
 <style scoped >
 .list-item{
     display:flex;
-    height: 100px;
+    height: 120px;
     align-items: center;
+    border-bottom: 1px solid #ccc;
 }
 .check{
     width:8%;
@@ -91,6 +99,7 @@ export default {
 }
 .right .title{
     /* text-align: center; */
+    padding-top: 10px;
     width:80%;
     font-size: 14px;
     font-weight: 600;
@@ -108,6 +117,9 @@ export default {
 }
 .right .bottom{
     width:80%;
+    font-size: 30px;
+    font-weight: 1000;
+    margin-bottom: 10px;
 
 }
 .bottom .price{
@@ -117,7 +129,8 @@ export default {
     font-size: 14px;
 }
 .bottom .count{
-    float: right;
+    margin-left: 10px;
+    float: left;
     margin-right: 10px;
     font-size: 14px;
 }

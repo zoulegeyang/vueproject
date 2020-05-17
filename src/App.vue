@@ -24,4 +24,7 @@ export default {
 </script>
 <style>
 @import "assets/css/base.css";
+img {
+  margin-top:0!important;
+}
 </style>

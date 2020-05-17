@@ -2,19 +2,19 @@
   <div class="treasure">
     <div>
       <div>
-        <div class="first"><span>{{treasure.balance}}</span> 元</div>
+        <div class="first"><span>{{getUserInfo.balance}}</span> 元</div>
         <div class="second">我的余额</div>
       </div>
     </div>
     <div>
       <div>
-        <div class="first"><span>{{treasure.discount}}</span>个</div>
+        <div class="first"><span>{{getUserInfo.discount.length}}</span>个</div>
         <div class="second">我的优惠券</div>
       </div>
     </div>
     <div>
       <div>
-        <div class="first"><span>{{treasure.credit}}</span>分</div>
+        <div class="first"><span>{{getUserInfo.score}}</span>分</div>
         <div class="second">我的积分</div>
       </div>
     </div>
@@ -22,15 +22,19 @@
 </template>
 
 <script>
+import {mapGetters} from "vuex"
 export default {
-  props: {
-    treasure: {
-      type: Object,
-      default() {
-        return {};
-      }
-    }
-  }
+  computed: {
+    ...mapGetters(['getUserInfo'])
+  },
+  // props: {
+  //   treasure: {
+  //     type: Object,
+  //     default() {
+  //       return {};
+  //     }
+  //   }
+  // }
 };
 </script>
 

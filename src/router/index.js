@@ -9,7 +9,7 @@ const Home=()=>import ("../views/home/Home")
 const Profile=()=>import ("../views/profile/Profile")
 const Detail=()=>import ("../views/detail/Detail")
 const Login=()=>import ("../views/login/Login")
-
+const Edit=()=>import ("../views/edit/Edit")
 
 
 // 1.安装插件
@@ -44,6 +44,10 @@ const routes = [
   {
     path: '/login',
     component: Login
+  },
+  {
+    path: '/edit',
+    component: Edit
   }
 ]
 const router = new VueRouter({
@@ -51,7 +55,23 @@ const router = new VueRouter({
   // base: '/Users/zhouyang/codes/vscodeworkplace/vuemall1/dist/',
   mode: 'history'
 })
+// 若想进入编辑页面需要先登录
+router.beforeEach((to,from,next)=>{
+  // 必须要有token 才放行
+  
+ 
+    if(to.path == '/edit') {
+      if (sessionStorage.getItem('token')) {
+        next()
+      }else {
+        next('/login')
+      }
+    } else {
+      next()  // 这个必须写 不然其它正常页面无法访问
+    }
 
+  
+})
 
 export default router
 

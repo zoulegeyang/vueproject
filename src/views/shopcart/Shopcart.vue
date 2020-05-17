@@ -82,7 +82,7 @@ export default {
         // console.log(this.goods[type].list);
         getGoods(type,page).then(
           res=>{
-            console.log(res)
+            // console.log(res)
             this.goodsList.push(...res.data.list)
             this.page+=1;
             

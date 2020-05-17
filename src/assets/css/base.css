@@ -54,4 +54,6 @@ a {
 .right {
   float: right;
 }
-
+img {
+  margin:0;
+}

@@ -46,10 +46,9 @@ export default {
   // 初始化时看
   activated () {
     // 判断vuex里是否有userInfo 
-    // if(this.$store.getters.getUserInfo.protrait) {
-    //   this.fileList=[{url:'http://localhost:5000'+this.$store.getters.getUserInfo.protrait}]
-    // }
-      // console.log(this.fileList)
+    if(this.$store.getters.getUserInfo.protrait) {
+      this.fileList=[{url:'http://localhost:5000'+this.$store.getters.getUserInfo.protrait}]
+    }
     },
   // },
   computed: {

@@ -2,6 +2,10 @@
   <div class="category">
     <nav-bar class="nav">
       <div slot="center" class="center">购物车({{length}})</div>
+      <div slot='right' class="nav-right" v-show="length>0">
+        <!-- <van-button type="danger" size="small" plain  class="edit-button" @click="!goodTabShow">编辑</van-button> -->
+        <div  @click="editClick" class="edit-text" >{{goodTabShow?'编辑':'完成'}}</div>
+      </div>
     </nav-bar>
     <bscroll class="scroll" ref="bscroll" 
     :style="{'bottom':length>0?'89px':'49px'}"
@@ -24,7 +28,7 @@
       </div>
       
     </bscroll>
-    <cart-bottom-bar class="cart-bar" v-if="length>0"></cart-bottom-bar>
+    <cart-bottom-bar class="cart-bar" v-if="length>0" :barShow="goodTabShow"></cart-bottom-bar>
     <back-top @click.native="backClick" v-show="isShow"></back-top>
   </div>
 </template>
@@ -49,7 +53,8 @@ export default {
     return {
       goodsList: [],
       page:0,
-      isShow:false
+      isShow:false,
+      goodTabShow:true, //底部栏的切换
     };
   },
   computed: {
@@ -67,7 +72,9 @@ export default {
   mounted() {
     this.getGoods('pop')
   },
-  activated() {
+  activated() { 
+    // 每次进来也要默认优先让下部的控制栏 为结算bar
+    this.goodTabShow = true;
     // 暂时先这样解决 每次进购物车都要刷一下 不考虑图片的加载问题
     if (this.length > 0) {
       //购物车有货的时候
@@ -113,6 +120,9 @@ export default {
         // console.log("上啦加载更多")
         this.getGoods('pop')
       },
+  editClick() {
+    this.goodTabShow=!this.goodTabShow
+  }
   },
   components: {
     navBar,
@@ -172,4 +182,14 @@ img {
   padding-top: 5px;
   background-color: #eee;
 }
+.nav-right {
+  /* margin-right: 40px!important; */
+  /* padding:0 20px */
+  position: relative;
+  right: 20px;
+}
+.edit-text {
+  color:white;
+}
+
 </style>

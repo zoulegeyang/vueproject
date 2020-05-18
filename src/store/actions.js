@@ -4,7 +4,8 @@ export default {
     cartKeeper(context,payload){
       return new Promise((resolve,reject)=>{
       let temp=null
-      for (let item of context.state.cartList) {
+      console.log(context.state.userInfo)
+      for (let item of context.state.userInfo.cartList) {
         if(item.iid==payload.iid){
             temp=item
         }
@@ -42,5 +43,8 @@ export default {
       },
       updateUserInfo(context,payload) {
         context.commit('updateUserInfo',payload)
+      },
+      updateGoodCount(context,payload) {
+        context.commit('updateGoodCount',payload)
       }
   }

@@ -23,7 +23,7 @@
 
 import {getDetail,des,shopInfo,getRecommend} from "network/detail"
 
-import { mapActions } from "vuex"
+import { mapActions,mapGetters } from "vuex"
 
 import Bscroll from "components/common/bscroll/Bscroll"
 import backTop from "components/contents/backTop"
@@ -163,7 +163,11 @@ export default {
             // console.log(-position.y)
         },
         cartTO(){
-            // console.log(111)
+            // 这里还需要做判断 判断用户是否登录 如果没登录 则进行跳转
+            if(this.$store.state.userInfo.phone == '10000000000') {
+                this.$router.push('/login')
+                return
+            }
             let good={
                 image:this.topImages[0],
                 desc:this.desc.title,
@@ -183,7 +187,15 @@ export default {
                 // console.log(this.$toast)
                 this.$toast.show(res,2000)
                 // console.log('111')
+                let count = this.$store.state.userInfo.cartList.find(item=>item.iid==this.iid).count
+                good.count = count
+                this.$http.post('cart/add',good)
+                .then((res)=>{
+                    console.log(res,count)
+                })
             })
+            // 向服务器的cartList 添加数据
+            
         },
     }
 }

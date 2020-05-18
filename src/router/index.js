@@ -10,7 +10,7 @@ const Profile=()=>import ("../views/profile/Profile")
 const Detail=()=>import ("../views/detail/Detail")
 const Login=()=>import ("../views/login/Login")
 const Edit=()=>import ("../views/edit/Edit")
-
+const ConfirmOrder=()=>import ("../views/confirmOrder/ConfirmOrder")
 
 // 1.安装插件
 Vue.use(VueRouter)
@@ -48,6 +48,10 @@ const routes = [
   {
     path: '/edit',
     component: Edit
+  },
+  {
+    path: "/confirm",
+    component: ConfirmOrder
   }
 ]
 const router = new VueRouter({

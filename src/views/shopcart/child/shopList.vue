@@ -9,9 +9,14 @@
                 <div class="title">{{item.title}}</div>
                 <!-- <div class="desc">{{product.desc}}</div> -->
                 <div class="bottom">
-                    <span class="price">${{item.price}}</span>
+                    <div class="b-left">
+                        <span class="price">${{item.price}}</span>
                     <span class="count">X{{item.count}}</span>
-                    <!-- <van-stepper v-model="item.count" /> -->
+                    </div>
+                    <div class="b-right">
+                    <van-stepper :value="item.count" @change="stepChange($event,index,item.iid)"/>
+
+                    </div>
                 </div>
                 
             </div>
@@ -23,6 +28,7 @@
 
 <script>
 // import listItem from "./listItem"
+import {mapActions} from "vuex"
 import checkButton from "components/common/checkButton/checkButton"
 import { mapGetters } from 'vuex';
 export default {
@@ -38,8 +44,9 @@ export default {
         // })
         products :{
             get () {
-                return this.$store.state.cartList
+                return this.$store.state.userInfo.cartList
             },
+            // 计数器和vuex值中每个id商品数据的绑定 由于需要修改的时候需要传参无法实现 改用方法修改
             // set(value) {
             //     this.$store.commit('addCounter',{value,type:'count'})
             // }
@@ -49,14 +56,20 @@ export default {
         // listItem,
         checkButton
      },
-    created() {
-
-    },
-    mounted() {
-
-    },
+    
     methods: {
-
+        ...mapActions(['updateGoodCount']),
+        // 做两个事 一个更新vuex里的数据 一个更新数据库
+        stepChange(value,index,iid) {
+            this.updateGoodCount({index,value})
+            this.$http.post('cart/goodCount', {
+                iid,
+                count:value
+            })
+            .then(res =>{
+                console.log(res)
+            })
+        }
     }
 };
 </script>
@@ -66,7 +79,7 @@ export default {
     display:flex;
     height: 120px;
     align-items: center;
-    border-bottom: 1px solid #ccc;
+    border-bottom: 1px solid #eee;
 }
 .check{
     width:8%;
@@ -119,22 +132,34 @@ export default {
     overflow: hidden;
 }
 .right .bottom{
-    width:80%;
+    width:90%;
     font-size: 30px;
     font-weight: 1000;
     margin-bottom: 10px;
-
+    display: flex;
+    align-items: center;
+    justify-content:space-around;
+}
+.bottom .b-left {
+    line-height: 100%;
+    display: flex;
+    align-items: center;
 }
 .bottom .price{
-    float: left;
+    /* float: left; */
     margin-left: 10px;
     color:#ff1511;
     font-size: 14px;
 }
 .bottom .count{
     margin-left: 10px;
-    float: left;
+    /* float: left; */
     margin-right: 10px;
     font-size: 14px;
+}
+.b-right {
+    /* width: 100%; */
+    height: 100%;
+    font-size: 10px;
 }
 </style>

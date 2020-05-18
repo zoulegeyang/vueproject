@@ -19,8 +19,10 @@ Field,
 NumberKeyboard,
 ActionSheet,
 Form,
-Stepper
-
+Stepper,
+Dialog,
+Picker,
+Popup
 } from "vant"
 import 'vant/lib/index.css';
 Vue.use(NavBar)
@@ -46,6 +48,9 @@ Vue.use(NavBar)
 .use(NumberKeyboard)
 .use(ActionSheet)
 .use(Stepper)
+.use(Dialog)
+.use(Picker)
+.use(Popup)
 // .use(Toast)
 Vue.config.productionTip = false
 // 事件总线 用来管理不同组件之间的事件通信

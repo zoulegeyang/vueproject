@@ -5,8 +5,11 @@ export default {
     },
     addCart(state,payload){
       payload.count=1;
-      state.cartList.push(payload)
+      state.userInfo.cartList.push(payload)
     },
+    // removeCart(state,payload) {
+
+    // }
     
     // 设置用户信息
     setInitUserInfo(state,payload) {
@@ -22,5 +25,8 @@ export default {
     updateUserInfo(state,payload) {
       state.userInfo[payload.name] = payload.value
       
+    },
+    updateGoodCount(state,payload) {
+      state.userInfo.cartList[payload.index].count = payload.value
     }
   }

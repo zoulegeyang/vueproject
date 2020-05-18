@@ -1,15 +1,17 @@
 <template>
     <div class="list-item">
+        <div slot="check">
         <check-button class="check" :isChecked="product.checked" @click.native="checkClick"></check-button>
+        </div>
         <div class="itemMess">
-            <div class="left"><img :src="product.image" alt=""></div>
+            <div class="left"><img :src="product.image" ></div>
             <div class="right">
                 <div class="title">{{product.title}}</div>
                 <!-- <div class="desc">{{product.desc}}</div> -->
                 <div class="bottom">
                     <span class="price">${{product.price}}</span>
                     <span class="count">X{{product.count}}</span>
-                    <van-stepper v-model="value" />
+                    
                 </div>
                 
             </div>
@@ -23,19 +25,19 @@ import {mapGetters} from "vuex"
 import checkButton from "components/common/checkButton/checkButton"
 export default {
      name:"listItem",
-    //  props:{
-    //      product:{
-    //          type:Object,
-    //          default(){
-    //              return {}
-    //          }
-    //      }
-    //  },
-    computed:{
-        ...mapGetters({
-            product:'list'
-        })
-    },
+     props:{
+         product:{
+             type:Object,
+             default(){
+                 return {}
+             }
+         }
+     },
+    // computed:{
+    //     ...mapGetters({
+    //         product:'list'
+    //     })
+    // },
     data() {
         return {
 
@@ -63,7 +65,7 @@ export default {
     display:flex;
     height: 120px;
     align-items: center;
-    border-bottom: 1px solid #ccc;
+    /* border-bottom: 1px solid #ffffff; */
 }
 .check{
     width:8%;
